@@ -22,7 +22,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         style="@style/match_match"
         android:id="@id/srlBaseHttpList"
-        app:srlEnableLoadmore="true"
+        app:srlEnableLoadMore="true"
         app:srlEnablePreviewInEditMode="true"
         >
 

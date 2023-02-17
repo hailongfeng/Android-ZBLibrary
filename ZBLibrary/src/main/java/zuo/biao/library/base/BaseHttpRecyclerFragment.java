@@ -15,15 +15,16 @@ limitations under the License.*/
 package zuo.biao.library.base;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
@@ -56,7 +57,7 @@ import zuo.biao.library.util.Log;
  */
 public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>>
 		extends BaseRecyclerFragment<T, VH, A>
-		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadmoreListener {
+		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadMoreListener {
 	private static final String TAG = "BaseHttpRecyclerFragment";
 
 
@@ -100,7 +101,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 
 				@Override
 				public void onLoadMore() {
-					srlBaseHttpRecycler.autoLoadmore();
+					srlBaseHttpRecycler.autoLoadMore();
 				}
 			});
 		}
@@ -159,7 +160,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 		setOnStopLoadListener(this);
 
 		srlBaseHttpRecycler.setOnRefreshListener(this);
-		srlBaseHttpRecycler.setOnLoadmoreListener(this);
+		srlBaseHttpRecycler.setOnLoadMoreListener(this);
 	}
 
 
@@ -179,7 +180,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 	}
 
 	@Override
-	public void onLoadmore(RefreshLayout refreshlayout) {
+	public void onLoadMore(RefreshLayout refreshlayout) {
 		onLoadMore();
 	}
 
@@ -191,7 +192,7 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 			@Override
 			public void run() {
 				srlBaseHttpRecycler.finishRefresh();
-				srlBaseHttpRecycler.setLoadmoreFinished(false);
+				srlBaseHttpRecycler.setNoMoreData(false);
 			}
 		});
 	}
@@ -202,11 +203,11 @@ public abstract class BaseHttpRecyclerFragment<T, VH extends RecyclerView.ViewHo
 			@Override
 			public void run() {
 				if (isHaveMore) {
-					srlBaseHttpRecycler.finishLoadmore();
+					srlBaseHttpRecycler.finishLoadMore();
 				} else {
-					srlBaseHttpRecycler.finishLoadmoreWithNoMoreData();
+					srlBaseHttpRecycler.finishLoadMoreWithNoMoreData();
 				}
-				srlBaseHttpRecycler.setLoadmoreFinished(! isHaveMore);
+				srlBaseHttpRecycler.setNoMoreData(! isHaveMore);
 			}
 		});
 	}

@@ -21,7 +21,7 @@ import android.widget.ListAdapter;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
@@ -54,7 +54,7 @@ import zuo.biao.library.util.Log;
  */
 public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends ListAdapter>
 		extends BaseListActivity<T, LV, A>
-		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadmoreListener {
+		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadMoreListener {
 	private static final String TAG = "BaseHttpListActivity";
 
 
@@ -83,7 +83,7 @@ public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends 
 
 				@Override
 				public void onLoadMore() {
-					srlBaseHttpList.autoLoadmore();
+					srlBaseHttpList.autoLoadMore();
 				}
 			});
 		}
@@ -142,7 +142,7 @@ public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends 
 		setOnStopLoadListener(this);
 
 		srlBaseHttpList.setOnRefreshListener(this);
-		srlBaseHttpList.setOnLoadmoreListener(this);
+		srlBaseHttpList.setOnLoadMoreListener(this);
 	}
 
 
@@ -162,7 +162,7 @@ public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends 
 	}
 
 	@Override
-	public void onLoadmore(RefreshLayout refreshlayout) {
+	public void onLoadMore(RefreshLayout refreshlayout) {
 		onLoadMore();
 	}
 
@@ -174,7 +174,7 @@ public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends 
 			@Override
 			public void run() {
 				srlBaseHttpList.finishRefresh();
-				srlBaseHttpList.setLoadmoreFinished(false);
+				srlBaseHttpList.setNoMoreData(false);
 			}
 		});
 	}
@@ -185,11 +185,11 @@ public abstract class BaseHttpListActivity<T, LV extends AbsListView, A extends 
 			@Override
 			public void run() {
 				if (isHaveMore) {
-					srlBaseHttpList.finishLoadmore();
+					srlBaseHttpList.finishLoadMore();
 				} else {
-					srlBaseHttpList.finishLoadmoreWithNoMoreData();
+					srlBaseHttpList.finishLoadMoreWithNoMoreData();
 				}
-				srlBaseHttpList.setLoadmoreFinished(! isHaveMore);
+				srlBaseHttpList.setNoMoreData(! isHaveMore);
 			}
 		});
 	}

@@ -34,6 +34,8 @@ public class SplashActivity extends Activity {
 			@Override
 			public void run() {
 				startActivity(AboutActivity.createIntent(SplashActivity.this));
+//				startActivity(TestActivity.createIntent(SplashActivity.this));
+
 				finish();
 			}
 		}, 500);

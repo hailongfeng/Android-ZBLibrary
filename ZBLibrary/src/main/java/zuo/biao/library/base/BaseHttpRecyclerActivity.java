@@ -20,7 +20,7 @@ import android.widget.AdapterView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
@@ -53,7 +53,7 @@ import zuo.biao.library.util.Log;
  */
 public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHolder, A extends RecyclerView.Adapter<VH>>
 		extends BaseRecyclerActivity<T, VH, A>
-		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadmoreListener {
+		implements OnHttpResponseListener, OnStopLoadListener, OnRefreshListener, OnLoadMoreListener {
 	private static final String TAG = "BaseHttpRecyclerActivity";
 
 
@@ -82,7 +82,7 @@ public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHo
 
 				@Override
 				public void onLoadMore() {
-					srlBaseHttpRecycler.autoLoadmore();
+					srlBaseHttpRecycler.autoLoadMore();
 				}
 			});
 		}
@@ -141,7 +141,7 @@ public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHo
 		setOnStopLoadListener(this);
 
 		srlBaseHttpRecycler.setOnRefreshListener(this);
-		srlBaseHttpRecycler.setOnLoadmoreListener(this);
+		srlBaseHttpRecycler.setOnLoadMoreListener(this);
 	}
 
 
@@ -161,7 +161,7 @@ public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHo
 	}
 
 	@Override
-	public void onLoadmore(RefreshLayout refreshlayout) {
+	public void onLoadMore(RefreshLayout refreshlayout) {
 		onLoadMore();
 	}
 
@@ -173,7 +173,7 @@ public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHo
 			@Override
 			public void run() {
 				srlBaseHttpRecycler.finishRefresh();
-				srlBaseHttpRecycler.setLoadmoreFinished(false);
+				srlBaseHttpRecycler.setNoMoreData(false);
 			}
 		});
 	}
@@ -184,11 +184,11 @@ public abstract class BaseHttpRecyclerActivity<T, VH extends RecyclerView.ViewHo
 			@Override
 			public void run() {
 				if (isHaveMore) {
-					srlBaseHttpRecycler.finishLoadmore();
+					srlBaseHttpRecycler.finishLoadMore();
 				} else {
-					srlBaseHttpRecycler.finishLoadmoreWithNoMoreData();
+					srlBaseHttpRecycler.finishLoadMoreWithNoMoreData();
 				}
-				srlBaseHttpRecycler.setLoadmoreFinished(! isHaveMore);
+				srlBaseHttpRecycler.setNoMoreData(! isHaveMore);
 			}
 		});
 	}

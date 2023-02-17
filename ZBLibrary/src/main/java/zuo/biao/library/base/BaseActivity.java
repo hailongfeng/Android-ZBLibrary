@@ -20,6 +20,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +105,12 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		ImmersionBar.with(this).init();
+		ImmersionBar.with(this)
+				.statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
+				.fitsSystemWindows(true)    //解决状态栏和布局重叠问题，任选其一，默认为false，当为true时一定要指定statusBarColor()，不然状态栏为透明色，还有一些重载方法
+				.statusBarColor(R.color.topbar_bg)     //状态栏颜色，不写默认透明色
+				.init();
 		context = (BaseActivity) getActivity();
 		isAlive = true;
 		fragmentManager = getSupportFragmentManager();
@@ -128,15 +136,15 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 		super.setContentView(layoutResID);
 
 		// 状态栏沉浸，4.4+生效 <<<<<<<<<<<<<<<<<
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			getWindow().setFlags(
-					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-			);
-		}
-		SystemBarTintManager tintManager = new SystemBarTintManager(this);
-		tintManager.setStatusBarTintEnabled(true);
-		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//			getWindow().setFlags(
+//					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+//					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//			);
+//		}
+//		SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//		tintManager.setStatusBarTintEnabled(true);
+//		tintManager.setStatusBarTintResource(R.color.topbar_bg);//状态背景色，可传drawable资源
 		// 状态栏沉浸，4.4+生效 >>>>>>>>>>>>>>>>>
 
 		tvBaseTitle = findView(R.id.tvBaseTitle);//绑定默认标题TextView
@@ -557,6 +565,15 @@ public abstract class BaseActivity extends FragmentActivity implements ActivityP
 	}
 
 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// 非必加
+		// 如果你的app可以横竖屏切换，适配了4.4或者华为emui3.1系统手机，并且navigationBarWithKitkatEnable为true，
+		// 请务必在onConfigurationChanged方法里添加如下代码（同时满足这三个条件才需要加上代码哦：1、横竖屏可以切换；2、android4.4或者华为emui3.1系统手机；3、navigationBarWithKitkatEnable为true）
+		// 否则请忽略
+		ImmersionBar.with(this).init();
+	}
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 

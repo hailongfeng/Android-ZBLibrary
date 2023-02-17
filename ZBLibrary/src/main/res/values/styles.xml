@@ -33,8 +33,8 @@
         <item name="android:background">@color/activity_bg</item>
         <item name="android:orientation">vertical</item>
         <!-- 状态栏沉浸 <<<<<<<<<<<<<<<<< -->
-        <item name="android:clipToPadding">true</item>
-        <item name="android:fitsSystemWindows">true</item>
+<!--        <item name="android:clipToPadding">true</item>
+        <item name="android:fitsSystemWindows">true</item>-->
         <!-- 状态栏沉浸 >>>>>>>>>>>>>>>>> -->
     </style>
 
